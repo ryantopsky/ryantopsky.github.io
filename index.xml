@@ -2,11 +2,39 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>远行客Ryan的博客</title>
-    <link>http://ryantopsky.github.io/</link>
+    <link>http://localhost:1313/</link>
     <description>Recent content on 远行客Ryan的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://ryantopsky.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 11 Jan 2016 11:07:15 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>first</title>
+      <link>http://localhost:1313/post/first/</link>
+      <pubDate>Mon, 11 Jan 2016 11:07:15 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/first/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>about</title>
+      <link>http://localhost:1313/about/</link>
+      <pubDate>Mon, 11 Jan 2016 11:06:57 +0800</pubDate>
+      
+      <guid>http://localhost:1313/about/</guid>
+      <description>&lt;p&gt;HELLO WORLD!&lt;/br&gt;
+        欢迎来到这个寂寞的世界！&lt;/br&gt;
+        远行的路上&lt;/br&gt;
+        不仅有诗和远方&lt;/br&gt;
+        还有书和电影&lt;/br&gt;
+        代码和音乐&lt;/br&gt;
+        知心的人和路边的野狗&lt;/br&gt;
+        我们并不孤单&lt;/br&gt;
+            ——远行客Ryan&lt;/br&gt;&lt;/p&gt;
+</description>
+    </item>
     
   </channel>
 </rss>
