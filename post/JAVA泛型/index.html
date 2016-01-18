@@ -1,0 +1,260 @@
+<div class="single">
+  <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.14" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel='stylesheet' href='//fonts.googleapis.com/css?family=Open+Sans|Lobster'>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/custom.css">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://ryantopsky.github.io//index.xml">
+
+    
+    <title> - 远行客Ryan的博客</title>
+    <meta property='og:title' content=" - 远行客Ryan的博客">
+    <meta property="og:type" content="article">
+    
+
+    <meta property="og:url" content="http://ryantopsky.github.io/post/JAVA%E6%B3%9B%E5%9E%8B/">
+    
+    
+
+  </head>
+
+  <body>
+
+    <div class="container-fluid">
+      <header class="site">
+        <div class="title"><a href="http://ryantopsky.github.io/">远行客Ryan的博客</a></div>
+      </header>
+    </div>
+
+    <div class="container site">
+
+
+  <article class="single" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+    <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://ryantopsky.github.io/"/>
+    <meta itemprop="dateModified" content="0001-01-01T00:00:00&#43;00:00">
+    <meta itemprop="headline" content="">
+    <meta itemprop="description" content="﻿# JAVA泛型 泛型是JAVA1.5版本新增的概念，以前版本是没有的。那么为什么要加泛型，什么是泛型，怎么使用呢？ 泛型最主要是用在集合类框架中，在没有使用泛型之前，从集合中读取的每个对象都必须转换。如果不小心插入了错误的对象，在运行时就会报错。而有了泛型以后，就可以告诉编译器集合接受哪些类型，编译器自动为插入做转换，并在编译时告知是否插入了错误的对象。这样会使程序更安全，也更加清楚。 但是为了兼容1.5版本以前的JAVA代码，考虑到“移植兼容性”还是要支持原生类型，1.5及以后的版本尽量还是使用泛型。 ##什么是泛型 声明中具有一个或多个类型参数（Type parameter）的类或接口就是泛型类或接口。泛型类或接口统称泛型（generic type）。 我们来看下泛型是怎样保证类型安全的，没有使用泛型的时候： //My Integer Collection,没有使用泛型 private final List list = new ArrayList(); list.add(1); list.add(&quot;1&quot;); for(Iterator itr = list.iterator(); itr.hasNext();){ int i = (Integer)itr.next();//Throws ClassCastException ..... } 没有使用泛型的时候，程序只有到运行时才报错，而编译时一切正常，这对于我们编程来说是不安全的。所有的错误越早发现越好，最好是编译时就可以发现错误。而泛型就可以做到这点： private final List&lt;Integer&gt; list = Lists.newArrayList(); list.add(1); list.add(&quot;1&quot;);//编译时会报错，不能将String类型插入Integer类型 见识到应用泛型的好处，但有几个问题必须弄清楚： &gt; * List&lt;Object&gt;、List&lt;?&gt;与List区别 List是原生类型，List&lt;Object&gt;表示可以持有任意类型的对象，前者则逃避了泛型检查，可以将List&lt;String&gt;传递给List的参数，但是不能传递给List&lt;Object&gt;。具体说明看下面的例子： public static void main(String[] args){ List&lt;String&gt; strings = Lists.newArrayList(); unSafeAdd(strings,new Intger(1)); String s = strings.get(0); } private static void unSafeAdd(List list ,Object o){ list.add(o); } 这个程序可以正常编译，但是运行到strings.get(0)时试图将Integer转换成String类型会报ClassCastException。而如果用List&lt;Object&gt;代替原生类型List会发现无法编译。 如果要使用泛型，但是不知道或者不关心实际的类型参数，可以使用无限制的通配符类型，用一个？代替，如上例可以表示成List&lt;?&gt;。它可以持有任意集合，这一点类似原生类型。但不能将任何元素（成了null之外）放到List&lt;?&gt;中。 泛型中会用到的一些术语： 术语 示例 参数化的类型 List&lt;String&gt; 实际参数类型 String 泛型 List&lt;E&gt; 形式类型参数 E 无限制通配符类型 List&lt;?&gt; 原生类型 List 有限制类型参数 &lt;E extends Number&gt; 递归类型限制 &lt;T extends Comparator&lt;T&gt;&gt; 有限制通配符类型 List&lt;?">
+    <meta itemprop="url" content="http://ryantopsky.github.io/post/JAVA%E6%B3%9B%E5%9E%8B/">
+    <div itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
+      <meta itemprop="url" content="http://ryantopsky.github.io/images/default.jpg" />
+      <meta itemprop="width" content="800">
+      <meta itemprop="height" content="800">
+    </div>
+    <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+      <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+        <meta itemprop="url" content="http://ryantopsky.github.io/images/logo.jpg">
+        <meta itemprop="width" content="100">
+        <meta itemprop="height" content="100">
+      </div>
+      <meta itemprop="name" content="远行客Ryan的博客">
+    </div>
+    <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+      <meta itemprop="name" content="">
+    </div>
+
+    <header>
+
+      <div class="clearfix">
+
+        <div class="image" style="background-image: url(http://ryantopsky.github.io/images/default.jpg);"></div>
+        <div class="detail">
+          <time itemprop="datePublished" pubdate="pubdate" datetime="0001-01-01T00:00:00&#43;00:00">Mon, Jan 1, 0001</time>
+          
+          <h1 class="title"></h1>
+        </div>
+      </div>
+
+      <div class="share">
+        <a href="http://www.facebook.com/sharer.php?src=bm&u=http%3a%2f%2fryantopsky.github.io%2fpost%2fJAVA%25E6%25B3%259B%25E5%259E%258B%2f&t=" onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"><i class="fa fa-facebook"></i></a>
+        <a href="http://twitter.com/intent/tweet?url=http%3a%2f%2fryantopsky.github.io%2fpost%2fJAVA%25E6%25B3%259B%25E5%259E%258B%2f&text=&tw_p=tweetbutton" onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"><i class="fa fa-twitter"></i></a>
+        <a href="https://plus.google.com/share?url=http%3a%2f%2fryantopsky.github.io%2fpost%2fJAVA%25E6%25B3%259B%25E5%259E%258B%2f" onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"><i class="fa fa-google-plus"></i></a>
+        <a href="http://getpocket.com/edit?url=http%3a%2f%2fryantopsky.github.io%2fpost%2fJAVA%25E6%25B3%259B%25E5%259E%258B%2f&title=" onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"><i class="fa fa-get-pocket"></i></a>
+      </div>
+
+    </header>
+
+    <div class="article-body" itemprop="articleBody"><p>﻿# JAVA泛型</p>
+
+<hr />
+
+<p>泛型是JAVA1.5版本新增的概念，以前版本是没有的。那么为什么要加泛型，什么是泛型，怎么使用呢？
+泛型最主要是用在集合类框架中，在没有使用泛型之前，从集合中读取的每个对象都必须转换。如果不小心插入了错误的对象，在运行时就会报错。而有了泛型以后，就可以告诉编译器集合接受哪些类型，编译器自动为插入做转换，并在编译时告知是否插入了错误的对象。这样会使程序更安全，也更加清楚。
+但是为了兼容1.5版本以前的JAVA代码，考虑到“移植兼容性”还是要支持原生类型，1.5及以后的版本尽量还是使用泛型。</p>
+
+<p>##什么是泛型
+声明中具有一个或多个类型参数（Type parameter）的类或接口就是泛型类或接口。泛型类或接口统称泛型（generic type）。
+我们来看下泛型是怎样保证类型安全的，没有使用泛型的时候：</p>
+
+<pre><code class="language-java">//My Integer Collection,没有使用泛型
+private final List list = new ArrayList();
+list.add(1);
+list.add(&quot;1&quot;);
+for(Iterator itr = list.iterator(); itr.hasNext();){
+    int i = (Integer)itr.next();//Throws ClassCastException
+    .....
+}
+</code></pre>
+
+<p>没有使用泛型的时候，程序只有到运行时才报错，而编译时一切正常，这对于我们编程来说是不安全的。所有的错误越早发现越好，最好是编译时就可以发现错误。而泛型就可以做到这点：</p>
+
+<pre><code class="language-java">private final List&lt;Integer&gt; list = Lists.newArrayList();
+list.add(1);
+list.add(&quot;1&quot;);//编译时会报错，不能将String类型插入Integer类型
+</code></pre>
+
+<p>见识到应用泛型的好处，但有几个问题必须弄清楚：
+&gt; * List&lt;Object&gt;、List&lt;?&gt;与List区别
+List是原生类型，List&lt;Object&gt;表示可以持有任意类型的对象，前者则逃避了泛型检查，可以将List&lt;String&gt;传递给List的参数，但是不能传递给List&lt;Object&gt;。具体说明看下面的例子：</p>
+
+<pre><code class="language-java">    public static void main(String[] args){
+        List&lt;String&gt; strings = Lists.newArrayList();
+        unSafeAdd(strings,new Intger(1));
+        String s = strings.get(0);
+    }
+    private static void unSafeAdd(List list ,Object o){
+        list.add(o);
+    }
+</code></pre>
+
+<p>这个程序可以正常编译，但是运行到strings.get(0)时试图将Integer转换成String类型会报ClassCastException。而如果用List&lt;Object&gt;代替原生类型List会发现无法编译。
+如果要使用泛型，但是不知道或者不关心实际的类型参数，可以使用无限制的通配符类型，用一个？代替，如上例可以表示成List&lt;?&gt;。它可以持有任意集合，这一点类似原生类型。但不能将任何元素（成了null之外）放到List&lt;?&gt;中。
+泛型中会用到的一些术语：</p>
+
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th align="right">示例</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>参数化的类型</td>
+<td align="right">List&lt;String&gt;</td>
+</tr>
+
+<tr>
+<td>实际参数类型</td>
+<td align="right">String</td>
+</tr>
+
+<tr>
+<td>泛型</td>
+<td align="right">List&lt;E&gt;</td>
+</tr>
+
+<tr>
+<td>形式类型参数</td>
+<td align="right">E</td>
+</tr>
+
+<tr>
+<td>无限制通配符类型</td>
+<td align="right">List&lt;?&gt;</td>
+</tr>
+
+<tr>
+<td>原生类型</td>
+<td align="right">List</td>
+</tr>
+
+<tr>
+<td>有限制类型参数</td>
+<td align="right">&lt;E extends Number&gt;</td>
+</tr>
+
+<tr>
+<td>递归类型限制</td>
+<td align="right">&lt;T extends Comparator&lt;T&gt;&gt;</td>
+</tr>
+
+<tr>
+<td>有限制通配符类型</td>
+<td align="right">List&lt;? extends Number&gt;</td>
+</tr>
+
+<tr>
+<td>泛型方法</td>
+<td align="right">static &lt;E&gt; List&lt;E&gt; asList(E[] e)</td>
+</tr>
+</tbody>
+</table>
+
+<blockquote>
+<ul>
+<li>类型擦除
+正确理解泛型概念的首要前提是理解类型擦除（type erasure）。 Java中的泛型基本上都是在编译器这个层次来实现的。在生成的Java字节代码中是不包含泛型中的类型信息的。使用泛型的时候加上的类型参数，会被编译器在编译的时候去掉。这个过程就称为类型擦除。如在代码中定义的List<Object>和List<String>等类型，在编译之后都会变成List。JVM看到的只是List，而由泛型附加的类型信息对JVM来说是不可见的。</li>
+<li>泛型方法
+与类可以从泛型中受益一样，方法也可以。下面将原生的方法改造成泛型方法：</li>
+</ul>
+</blockquote>
+
+<pre><code class="language-java">    //raw types
+    public static Set union(Set s1,Set s2){
+        Set result = new HashSet(s1);
+        result.addAll(s2);
+        return result;
+    }
+</code></pre>
+
+<p>上面的原生类型是类型不安全的，为了使他类型安全，要在方法中声明一个类型参数，表示这三个集合类型（两个参数，一个返回值），并在方法中使用类型参数。</p>
+
+<pre><code class="language-java">//Generic method
+public static &lt;E&gt; Set&lt;E&gt; union(Set&lt;E&gt; s1,Set&lt;E&gt; s2){
+    Set&lt;E&gt; result = new HashSet&lt;E&gt;(s1);
+    result.addAll(s2);
+    return result;
+}
+</code></pre>
+
+<blockquote>
+<ul>
+<li>通配符
+上文提到了通配符表示未知的类型，因为对于List&lt;?&gt;中的元素只能用Object来引用，在有些情况下不是很方便。在这些情况下，可以使用上下界来限制未知类型的范围。 如List&lt;? extends Number&gt;说明List中可能包含的元素类型是Number及其子类。而List&lt;? super Number&gt;则说明List中包含的是Number及其父类。</li>
+</ul>
+</blockquote>
+</div>
+
+    <aside>
+
+      
+
+      
+      
+      
+
+    </aside>
+
+  </article>
+
+      </div>
+
+    <div class="container-fluid">
+      <footer class="site">
+        <p>&copy; 1 远行客Ryan的博客</p>
+        <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+        <p>Theme <a href="https://github.com/dim0627/hugo_theme_aglaus" target="_blank">Aglaus</a> designed by <a href="http://yet.unresolved.xyz" target="_blank">Daisuke Tsuji</a></p>
+      </footer>
+    </div>
+
+    <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+
+  </body>
+</html>
+
+</div>
