@@ -1,0 +1,205 @@
+<div class="single">
+  <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.14" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel='stylesheet' href='//fonts.googleapis.com/css?family=Open+Sans|Lobster'>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/custom.css">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://localhost:1313//index.xml">
+
+    
+    <title>枚举 - 远行客Ryan的博客</title>
+    <meta property='og:title' content="枚举 - 远行客Ryan的博客">
+    <meta property="og:type" content="article">
+    
+
+    <meta property="og:url" content="http://localhost:1313/post/%E6%9E%9A%E4%B8%BE/">
+    
+    
+
+  </head>
+
+  <body>
+
+    <div class="container-fluid">
+      <header class="site">
+        <div class="title"><a href="http://localhost:1313/">远行客Ryan的博客</a></div>
+      </header>
+    </div>
+
+    <div class="container site">
+
+
+  <article class="single" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+    <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://localhost:1313/"/>
+    <meta itemprop="dateModified" content="2016-01-20T01:14:14&#43;08:00">
+    <meta itemprop="headline" content="枚举">
+    <meta itemprop="description" content="枚举 标签（空格分隔）： java ##什么是枚举 枚举类型（enum type）是指一组固定的常量组成的合法值类型。也是JAVA1.5以后引入的新特性。那么为什么要引入枚举类呢？在没有枚举类型之前，常用方法是声明一组具名的int或者String常量。每个类型成员对应一个常量： public static final int APPLE = 0; public static final int ORANGE = 1; public static final String APPLE = &quot;APPLE&quot;; public static final String ORANGE = &quot;ORANGE&quot;; 但是采用这种方法，耦合性太强。一旦常量值发生变化，会影响调用到他们的客户端，不方便也不安全。 所以在java1.5以后支持枚举类型，可以避免以上的缺点并且带来额外的好处。他的基本形式如下： public enum Fruit{ APPLE,ORANGE,BANANA } 那么enum枚举到底为我们带来了什么直接的好处呢？ ###switch 第一个好处是扩大了switch的使用范围，5.0 之前，Java 中 switch的值只能够是简单类型，比如int、byte、short、char,有了枚举类型之后，就可以使用对象了。 // 定义一周七天的枚举类型 public enum WeekDayEnum { Mon, Tue, Wed, Thu, Fri, Sat, Sun } // 读取当天的信息 WeekDayEnum today = readToday(); // 根据日期来选择进行活动 switch(today)">
+    <meta itemprop="url" content="http://localhost:1313/post/%E6%9E%9A%E4%B8%BE/">
+    <div itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
+      <meta itemprop="url" content="http://localhost:1313/images/default.jpg" />
+      <meta itemprop="width" content="800">
+      <meta itemprop="height" content="800">
+    </div>
+    <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+      <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+        <meta itemprop="url" content="http://localhost:1313/images/logo.jpg">
+        <meta itemprop="width" content="100">
+        <meta itemprop="height" content="100">
+      </div>
+      <meta itemprop="name" content="远行客Ryan的博客">
+    </div>
+    <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+      <meta itemprop="name" content="">
+    </div>
+
+    <header>
+
+      <div class="clearfix">
+
+        <div class="image" style="background-image: url(http://localhost:1313/images/default.jpg);"></div>
+        <div class="detail">
+          <time itemprop="datePublished" pubdate="pubdate" datetime="2016-01-20T01:14:14&#43;08:00">Wed, Jan 20, 2016</time>
+          
+          <h1 class="title">枚举</h1>
+        </div>
+      </div>
+
+      <div class="share">
+        <a href="http://www.facebook.com/sharer.php?src=bm&u=http%3a%2f%2flocalhost%3a1313%2fpost%2f%25E6%259E%259A%25E4%25B8%25BE%2f&t=%e6%9e%9a%e4%b8%be" onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"><i class="fa fa-facebook"></i></a>
+        <a href="http://twitter.com/intent/tweet?url=http%3a%2f%2flocalhost%3a1313%2fpost%2f%25E6%259E%259A%25E4%25B8%25BE%2f&text=%e6%9e%9a%e4%b8%be&tw_p=tweetbutton" onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"><i class="fa fa-twitter"></i></a>
+        <a href="https://plus.google.com/share?url=http%3a%2f%2flocalhost%3a1313%2fpost%2f%25E6%259E%259A%25E4%25B8%25BE%2f" onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"><i class="fa fa-google-plus"></i></a>
+        <a href="http://getpocket.com/edit?url=http%3a%2f%2flocalhost%3a1313%2fpost%2f%25E6%259E%259A%25E4%25B8%25BE%2f&title=%e6%9e%9a%e4%b8%be" onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"><i class="fa fa-get-pocket"></i></a>
+      </div>
+
+    </header>
+
+    <div class="article-body" itemprop="articleBody">
+
+<h1 id="枚举:4856ca9a2bc69d990ff8a98191a686f0">枚举</h1>
+
+<p>标签（空格分隔）： java</p>
+
+<hr />
+
+<p>##什么是枚举
+枚举类型（enum type）是指一组固定的常量组成的合法值类型。也是JAVA1.5以后引入的新特性。那么为什么要引入枚举类呢？在没有枚举类型之前，常用方法是声明一组具名的int或者String常量。每个类型成员对应一个常量：</p>
+
+<pre><code class="language-java">    public static final int APPLE = 0;
+    public static final int ORANGE = 1;
+    public static final String APPLE = &quot;APPLE&quot;;
+    public static final String ORANGE = &quot;ORANGE&quot;;
+</code></pre>
+
+<p>但是采用这种方法，耦合性太强。一旦常量值发生变化，会影响调用到他们的客户端，不方便也不安全。
+所以在java1.5以后支持枚举类型，可以避免以上的缺点并且带来额外的好处。他的基本形式如下：</p>
+
+<pre><code class="language-java">    public enum Fruit{
+    APPLE,ORANGE,BANANA
+    }
+</code></pre>
+
+<p>那么enum枚举到底为我们带来了什么直接的好处呢？
+###switch
+第一个好处是扩大了switch的使用范围，5.0 之前，Java 中 switch的值只能够是简单类型，比如int、byte、short、char,有了枚举类型之后，就可以使用对象了。</p>
+
+<pre><code class="language-java">// 定义一周七天的枚举类型			
+ public enum WeekDayEnum { Mon, Tue, Wed, Thu, Fri, Sat, Sun } 
+
+ // 读取当天的信息
+ WeekDayEnum today = readToday(); 
+ 
+ // 根据日期来选择进行活动
+ switch(today) { 
+  Mon: do something; break; 
+  Tue: do something; break; 
+  Wed: do something; break; 
+  Thu: do something; break; 
+  Fri: do something; break; 
+  Sat: play sports game; break; 
+  Sun: have a rest; break; 
+ }
+</code></pre>
+
+<p>###关于EnumSet和EnumMap
+DK5.0 中在增加 Enum 类的同时，也增加了两个工具类 EnumSet 和 EnumMap，这两个类都放在 java.util 包中。EnumSet 是一个针对枚举类型的高性能的 Set 接口实现。EnumSet 中装入的所有枚举对象都必须是同一种类型。</p>
+
+<pre><code class="language-java">enum WeekDayEnum { Mon, Tue, Wed, Thu, Fri, Sat, Sun }
+</code></pre>
+
+<p>你能够在每周七天日期中进行迭代，EnumSet 类提供一个静态方法 range 让迭代很容易完成：</p>
+
+<pre><code class="language-java">for(WeekDayEnum day : EnumSet.range(WeekDayEnum.Mon,WeekDayEnum.Fri)) { 
+     System.out.println(day); 
+ }
+</code></pre>
+
+<p>EnumSet 还提供了很多个类型安全的获取子集的of方法，使你很容易取得子集：</p>
+
+<pre><code class="language-java"> EnumSet&lt;WeekDayEnum&gt; subset = EnumSet.of(WeekDayEnum.Mon,WeekDayEnum.Wed); 
+      for (WeekDayEnum day : subset) { 
+          System.out.println(day);  
+      }
+</code></pre>
+
+<p>与 EnumSet 类似，EnumMap 也是一个高性能的 Map 接口实现，用来管理使用枚举类型作为 keys 的映射表，内部是通过数组方式来实现。EnumMap 将丰富的和安全的 Map 接口与数组快速访问结合到一起，如果你希望要将一个枚举类型映射到一个值，你应该使用 EnumMap。看下面的例子：</p>
+
+<pre><code class="language-java">// 定义一个 EnumMap 对象，映射表主键是日期枚举类型，值是颜色枚举类型
+ private static Map&lt;WeekDayEnum, RainbowColor&gt; schema = 
+            new EnumMap&lt;WeekDayEnum, RainbowColor&gt;(WeekDayEnum.class); 
+    
+ static{ 
+    // 将一周的每一天与彩虹的某一种色彩映射起来
+    for (int i = 0; i &lt; WeekDayEnum.values().length; i++) { 
+        schema.put(WeekDayEnum.values()[i], RainbowColor.values()[i]); 
+    } 
+ } 
+ System.out.println(&quot;What is the lucky color today?&quot;); 
+ System.out.println(&quot;It's &quot; + schema.get(WeekDayEnum.Sat));
+</code></pre>
+</div>
+
+    <aside>
+
+      
+
+      
+      
+      
+
+    </aside>
+
+  </article>
+
+      </div>
+
+    <div class="container-fluid">
+      <footer class="site">
+        <p>&copy; 2016 远行客Ryan的博客</p>
+        <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+        <p>Theme <a href="https://github.com/dim0627/hugo_theme_aglaus" target="_blank">Aglaus</a> designed by <a href="http://yet.unresolved.xyz" target="_blank">Daisuke Tsuji</a></p>
+      </footer>
+    </div>
+
+    <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+
+  <script data-no-instant>document.write('<script src="http://'
+        + (location.host || 'localhost').split(':')[0]
+		+ ':1313/livereload.js?mindelay=10"></'
+        + 'script>')</script></body>
+</html>
+
+</div>

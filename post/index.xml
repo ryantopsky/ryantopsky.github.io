@@ -6,8 +6,100 @@
     <description>Recent content in Posts on 远行客Ryan的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 19 Jan 2016 15:14:39 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 20 Jan 2016 01:14:14 +0800</lastBuildDate>
     <atom:link href="http://localhost:1313/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>枚举</title>
+      <link>http://localhost:1313/post/%E6%9E%9A%E4%B8%BE/</link>
+      <pubDate>Wed, 20 Jan 2016 01:14:14 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/%E6%9E%9A%E4%B8%BE/</guid>
+      <description>
+
+&lt;h1 id=&#34;枚举:4856ca9a2bc69d990ff8a98191a686f0&#34;&gt;枚举&lt;/h1&gt;
+
+&lt;p&gt;标签（空格分隔）： java&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;##什么是枚举
+枚举类型（enum type）是指一组固定的常量组成的合法值类型。也是JAVA1.5以后引入的新特性。那么为什么要引入枚举类呢？在没有枚举类型之前，常用方法是声明一组具名的int或者String常量。每个类型成员对应一个常量：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public static final int APPLE = 0;
+    public static final int ORANGE = 1;
+    public static final String APPLE = &amp;quot;APPLE&amp;quot;;
+    public static final String ORANGE = &amp;quot;ORANGE&amp;quot;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但是采用这种方法，耦合性太强。一旦常量值发生变化，会影响调用到他们的客户端，不方便也不安全。
+所以在java1.5以后支持枚举类型，可以避免以上的缺点并且带来额外的好处。他的基本形式如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public enum Fruit{
+    APPLE,ORANGE,BANANA
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;那么enum枚举到底为我们带来了什么直接的好处呢？
+###switch
+第一个好处是扩大了switch的使用范围，5.0 之前，Java 中 switch的值只能够是简单类型，比如int、byte、short、char,有了枚举类型之后，就可以使用对象了。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;// 定义一周七天的枚举类型			
+ public enum WeekDayEnum { Mon, Tue, Wed, Thu, Fri, Sat, Sun } 
+
+ // 读取当天的信息
+ WeekDayEnum today = readToday(); 
+ 
+ // 根据日期来选择进行活动
+ switch(today) { 
+  Mon: do something; break; 
+  Tue: do something; break; 
+  Wed: do something; break; 
+  Thu: do something; break; 
+  Fri: do something; break; 
+  Sat: play sports game; break; 
+  Sun: have a rest; break; 
+ }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;###关于EnumSet和EnumMap
+DK5.0 中在增加 Enum 类的同时，也增加了两个工具类 EnumSet 和 EnumMap，这两个类都放在 java.util 包中。EnumSet 是一个针对枚举类型的高性能的 Set 接口实现。EnumSet 中装入的所有枚举对象都必须是同一种类型。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;enum WeekDayEnum { Mon, Tue, Wed, Thu, Fri, Sat, Sun }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;你能够在每周七天日期中进行迭代，EnumSet 类提供一个静态方法 range 让迭代很容易完成：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;for(WeekDayEnum day : EnumSet.range(WeekDayEnum.Mon,WeekDayEnum.Fri)) { 
+     System.out.println(day); 
+ }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;EnumSet 还提供了很多个类型安全的获取子集的of方法，使你很容易取得子集：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt; EnumSet&amp;lt;WeekDayEnum&amp;gt; subset = EnumSet.of(WeekDayEnum.Mon,WeekDayEnum.Wed); 
+      for (WeekDayEnum day : subset) { 
+          System.out.println(day);  
+      }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;与 EnumSet 类似，EnumMap 也是一个高性能的 Map 接口实现，用来管理使用枚举类型作为 keys 的映射表，内部是通过数组方式来实现。EnumMap 将丰富的和安全的 Map 接口与数组快速访问结合到一起，如果你希望要将一个枚举类型映射到一个值，你应该使用 EnumMap。看下面的例子：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;// 定义一个 EnumMap 对象，映射表主键是日期枚举类型，值是颜色枚举类型
+ private static Map&amp;lt;WeekDayEnum, RainbowColor&amp;gt; schema = 
+            new EnumMap&amp;lt;WeekDayEnum, RainbowColor&amp;gt;(WeekDayEnum.class); 
+    
+ static{ 
+    // 将一周的每一天与彩虹的某一种色彩映射起来
+    for (int i = 0; i &amp;lt; WeekDayEnum.values().length; i++) { 
+        schema.put(WeekDayEnum.values()[i], RainbowColor.values()[i]); 
+    } 
+ } 
+ System.out.println(&amp;quot;What is the lucky color today?&amp;quot;); 
+ System.out.println(&amp;quot;It&#39;s &amp;quot; + schema.get(WeekDayEnum.Sat));
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>java泛型</title>
