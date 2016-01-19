@@ -2,19 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://localhost:1313/</loc>
-    <lastmod>2016-01-19T15:14:39+08:00</lastmod>
+    <loc>http://ryantopsky.github.io/</loc>
     <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://localhost:1313/post/java%E6%B3%9B%E5%9E%8B/</loc>
-    <lastmod>2016-01-19T15:14:39+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://localhost:1313/about/</loc>
-    <lastmod>2016-01-11T11:06:57+08:00</lastmod>
   </url>
   
 </urlset>
