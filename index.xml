@@ -2,11 +2,181 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>远行客Ryan的博客</title>
-    <link>http://ryantopsky.github.io/</link>
+    <link>http://localhost:1313/</link>
     <description>Recent content on 远行客Ryan的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://ryantopsky.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 19 Jan 2016 15:14:39 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>java泛型</title>
+      <link>http://localhost:1313/post/java%E6%B3%9B%E5%9E%8B/</link>
+      <pubDate>Tue, 19 Jan 2016 15:14:39 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/java%E6%B3%9B%E5%9E%8B/</guid>
+      <description>
+
+&lt;h1 id=&#34;java泛型:db5259b3df14c0d6eb9dc3f0bc3c6ba4&#34;&gt;JAVA泛型&lt;/h1&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;泛型是JAVA1.5版本新增的概念，以前版本是没有的。那么为什么要加泛型，什么是泛型，怎么使用呢？
+泛型最主要是用在集合类框架中，在没有使用泛型之前，从集合中读取的每个对象都必须转换。如果不小心插入了错误的对象，在运行时就会报错。而有了泛型以后，就可以告诉编译器集合接受哪些类型，编译器自动为插入做转换，并在编译时告知是否插入了错误的对象。这样会使程序更安全，也更加清楚。
+但是为了兼容1.5版本以前的JAVA代码，考虑到“移植兼容性”还是要支持原生类型，1.5及以后的版本尽量还是使用泛型。&lt;/p&gt;
+
+&lt;h1 id=&#34;什么是泛型:db5259b3df14c0d6eb9dc3f0bc3c6ba4&#34;&gt;什么是泛型&lt;/h1&gt;
+
+&lt;p&gt;声明中具有一个或多个类型参数（Type parameter）的类或接口就是泛型类或接口。泛型类或接口统称泛型（generic type）。
+我们来看下泛型是怎样保证类型安全的，没有使用泛型的时候：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;//My Integer Collection,没有使用泛型
+private final List list = new ArrayList();
+list.add(1);
+list.add(&amp;quot;1&amp;quot;);
+for(Iterator itr = list.iterator(); itr.hasNext();){
+    int i = (Integer)itr.next();//Throws ClassCastException
+    .....
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;没有使用泛型的时候，程序只有到运行时才报错，而编译时一切正常，这对于我们编程来说是不安全的。所有的错误越早发现越好，最好是编译时就可以发现错误。而泛型就可以做到这点：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;private final List&amp;lt;Integer&amp;gt; list = Lists.newArrayList();
+list.add(1);
+list.add(&amp;quot;1&amp;quot;);//编译时会报错，不能将String类型插入Integer类型
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;见识到应用泛型的好处，但有几个问题必须弄清楚：&lt;/p&gt;
+
+&lt;h3 id=&#34;list-lt-object-list-lt-与list区别:db5259b3df14c0d6eb9dc3f0bc3c6ba4&#34;&gt;List&amp;lt;Object&amp;gt;、List&amp;lt;?&amp;gt;与List区别&lt;/h3&gt;
+
+&lt;p&gt;List是原生类型，List&amp;lt;Object&amp;gt;表示可以持有任意类型的对象，前者则逃避了泛型检查，可以将List&amp;lt;String&amp;gt;传递给List的参数，但是不能传递给List&amp;lt;Object&amp;gt;。具体说明看下面的例子：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public static void main(String[] args){
+        List&amp;lt;String&amp;gt; strings = Lists.newArrayList();
+        unSafeAdd(strings,new Intger(1));
+        String s = strings.get(0);
+    }
+    private static void unSafeAdd(List list ,Object o){
+        list.add(o);
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这个程序可以正常编译，但是运行到strings.get(0)时试图将Integer转换成String类型会报ClassCastException。而如果用List&amp;lt;Object&amp;gt;代替原生类型List会发现无法编译。
+如果要使用泛型，但是不知道或者不关心实际的类型参数，可以使用无限制的通配符类型，用一个？代替，如上例可以表示成List&amp;lt;?&amp;gt;。它可以持有任意集合，这一点类似原生类型。但不能将任何元素（成了null之外）放到List&amp;lt;?&amp;gt;中。
+泛型中会用到的一些术语：&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;术语&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;示例&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;参数化的类型&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;List&amp;lt;String&amp;gt;&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;实际参数类型&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;String&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;泛型&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;List&amp;lt;E&amp;gt;&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;形式类型参数&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;E&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;无限制通配符类型&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;List&amp;lt;?&amp;gt;&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;原生类型&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;List&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;有限制类型参数&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;&amp;lt;E extends Number&amp;gt;&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;递归类型限制&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;&amp;lt;T extends Comparator&amp;lt;T&amp;gt;&amp;gt;&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;有限制通配符类型&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;List&amp;lt;? extends Number&amp;gt;&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;泛型方法&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;static &amp;lt;E&amp;gt; List&amp;lt;E&amp;gt; asList(E[] e)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&#34;类型擦除:db5259b3df14c0d6eb9dc3f0bc3c6ba4&#34;&gt;类型擦除&lt;/h3&gt;
+
+&lt;p&gt;正确理解泛型概念的首要前提是理解类型擦除（type erasure）。 Java中的泛型基本上都是在编译器这个层次来实现的。在生成的Java字节代码中是不包含泛型中的类型信息的。使用泛型的时候加上的类型参数，会被编译器在编译的时候去掉。这个过程就称为类型擦除。如在代码中定义的List&lt;Object&gt;和List&lt;String&gt;等类型，在编译之后都会变成List。JVM看到的只是List，而由泛型附加的类型信息对JVM来说是不可见的。&lt;/p&gt;
+
+&lt;h3 id=&#34;泛型方法:db5259b3df14c0d6eb9dc3f0bc3c6ba4&#34;&gt;泛型方法&lt;/h3&gt;
+
+&lt;p&gt;与类可以从泛型中受益一样，方法也可以。下面将原生的方法改造成泛型方法：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    //raw types
+    public static Set union(Set s1,Set s2){
+        Set result = new HashSet(s1);
+        result.addAll(s2);
+        return result;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面的原生类型是类型不安全的，为了使他类型安全，要在方法中声明一个类型参数，表示这三个集合类型（两个参数，一个返回值），并在方法中使用类型参数。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;//Generic method
+public static &amp;lt;E&amp;gt; Set&amp;lt;E&amp;gt; union(Set&amp;lt;E&amp;gt; s1,Set&amp;lt;E&amp;gt; s2){
+    Set&amp;lt;E&amp;gt; result = new HashSet&amp;lt;E&amp;gt;(s1);
+    result.addAll(s2);
+    return result;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;通配符:db5259b3df14c0d6eb9dc3f0bc3c6ba4&#34;&gt;通配符&lt;/h3&gt;
+
+&lt;p&gt;上文提到了通配符表示未知的类型，因为对于List&amp;lt;?&amp;gt;中的元素只能用Object来引用，在有些情况下不是很方便。在这些情况下，可以使用上下界来限制未知类型的范围。 如List&amp;lt;? extends Number&amp;gt;说明List中可能包含的元素类型是Number及其子类。而List&amp;lt;? super Number&amp;gt;则说明List中包含的是Number及其父类。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>about</title>
+      <link>http://localhost:1313/about/</link>
+      <pubDate>Mon, 11 Jan 2016 11:06:57 +0800</pubDate>
+      
+      <guid>http://localhost:1313/about/</guid>
+      <description>&lt;p&gt;HELLO WORLD!&lt;/br&gt;
+        欢迎来到这个寂寞的世界！&lt;/br&gt;
+        远行的路上&lt;/br&gt;
+        不仅有诗和远方&lt;/br&gt;
+        还有书和电影&lt;/br&gt;
+        代码和音乐&lt;/br&gt;
+        知心的人和路边的野狗&lt;/br&gt;
+        我们并不孤单&lt;/br&gt;
+            ——远行客Ryan&lt;/br&gt;&lt;/p&gt;
+</description>
+    </item>
     
   </channel>
 </rss>
