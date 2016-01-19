@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/custom.css">
-    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://localhost:1313//index.xml">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://ryantopsky.github.io//index.xml">
 
     
     <title>java泛型 - 远行客Ryan的博客</title>
@@ -20,7 +20,7 @@
     <meta property="og:type" content="article">
     
 
-    <meta property="og:url" content="http://localhost:1313/post/java%E6%B3%9B%E5%9E%8B/">
+    <meta property="og:url" content="http://ryantopsky.github.io/post/java%E6%B3%9B%E5%9E%8B/">
     
     
 
@@ -30,7 +30,7 @@
 
     <div class="container-fluid">
       <header class="site">
-        <div class="title"><a href="http://localhost:1313/">远行客Ryan的博客</a></div>
+        <div class="title"><a href="http://ryantopsky.github.io/">远行客Ryan的博客</a></div>
       </header>
     </div>
 
@@ -39,19 +39,19 @@
 
   <article class="single" itemscope="itemscope" itemtype="http://schema.org/Article">
 
-    <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://localhost:1313/"/>
+    <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://ryantopsky.github.io/"/>
     <meta itemprop="dateModified" content="2016-01-19T15:14:39&#43;08:00">
     <meta itemprop="headline" content="java泛型">
     <meta itemprop="description" content="JAVA泛型 泛型是JAVA1.5版本新增的概念，以前版本是没有的。那么为什么要加泛型，什么是泛型，怎么使用呢？ 泛型最主要是用在集合类框架中，在没有使用泛型之前，从集合中读取的每个对象都必须转换。如果不小心插入了错误的对象，在运行时就会报错。而有了泛型以后，就可以告诉编译器集合接受哪些类型，编译器自动为插入做转换，并在编译时告知是否插入了错误的对象。这样会使程序更安全，也更加清楚。 但是为了兼容1.5版本以前的JAVA代码，考虑到“移植兼容性”还是要支持原生类型，1.5及以后的版本尽量还是使用泛型。 什么是泛型 声明中具有一个或多个类型参数（Type parameter）的类或接口就是泛型类或接口。泛型类或接口统称泛型（generic type）。 我们来看下泛型是怎样保证类型安全的，没有使用泛型的时候： //My Integer Collection,没有使用泛型 private final List list = new ArrayList(); list.add(1); list.add(&quot;1&quot;); for(Iterator itr = list.iterator(); itr.hasNext();){ int i = (Integer)itr.next();//Throws ClassCastException ..... } 没有使用泛型的时候，程序只有到运行时才报错，而编译时一切正常，这对于我们编程来说是不安全的。所有的错误越早发现越好，最好是编译时就可以发现错误。而泛型就可以做到这点： private final List&lt;Integer&gt; list = Lists.newArrayList(); list.add(1); list.add(&quot;1&quot;);//编译时会报错，不能将String类型插入Integer类型 见识到应用泛型的好处，但有几个问题必须弄清楚： List&lt;Object&gt;、List&lt;?&gt;与List区别 List是原生类型，List&lt;Object&gt;表示可以持有任意类型的对象，前者则逃避了泛型检查，可以将List&lt;String&gt;传递给List的参数，但是不能传递给List&lt;Object&gt;。具体说明看下面的例子： public static void main(String[] args){ List&lt;String&gt; strings = Lists.newArrayList(); unSafeAdd(strings,new Intger(1)); String s = strings.get(0); } private static void unSafeAdd(List list ,Object o){ list.add(o); } 这个程序可以正常编译，但是运行到strings.get(0)时试图将Integer转换成String类型会报ClassCastException。而如果用List&lt;Object&gt;代替原生类型List会发现无法编译。 如果要使用泛型，但是不知道或者不关心实际的类型参数，可以使用无限制的通配符类型，用一个？代替，如上例可以表示成List&lt;?&gt;。它可以持有任意集合，这一点类似原生类型。但不能将任何元素（成了null之外）放到List&lt;?&gt;中。 泛型中会用到的一些术语： 术语 示例 参数化的类型 List&lt;String&gt; 实际参数类型 String 泛型 List&lt;E&gt; 形式类型参数 E 无限制通配符类型 List&lt;?&gt; 原生类型 List 有限制类型参数 &lt;E extends Number&gt; 递归类型限制 &lt;T extends Comparator&lt;T&gt;&gt; 有限制通配符类型 List&lt;?">
-    <meta itemprop="url" content="http://localhost:1313/post/java%E6%B3%9B%E5%9E%8B/">
+    <meta itemprop="url" content="http://ryantopsky.github.io/post/java%E6%B3%9B%E5%9E%8B/">
     <div itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
-      <meta itemprop="url" content="http://localhost:1313/images/default.jpg" />
+      <meta itemprop="url" content="http://ryantopsky.github.io/images/default.jpg" />
       <meta itemprop="width" content="800">
       <meta itemprop="height" content="800">
     </div>
     <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
       <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
-        <meta itemprop="url" content="http://localhost:1313/images/logo.jpg">
+        <meta itemprop="url" content="http://ryantopsky.github.io/images/logo.jpg">
         <meta itemprop="width" content="100">
         <meta itemprop="height" content="100">
       </div>
@@ -65,7 +65,7 @@
 
       <div class="clearfix">
 
-        <div class="image" style="background-image: url(http://localhost:1313/images/default.jpg);"></div>
+        <div class="image" style="background-image: url(http://ryantopsky.github.io/images/default.jpg);"></div>
         <div class="detail">
           <time itemprop="datePublished" pubdate="pubdate" datetime="2016-01-19T15:14:39&#43;08:00">Tue, Jan 19, 2016</time>
           
