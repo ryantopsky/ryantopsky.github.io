@@ -6,8 +6,186 @@
     <description>Recent content in Posts on 远行客Ryan的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 20 Jan 2016 01:14:14 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 18 Feb 2016 22:41:54 +0800</lastBuildDate>
     <atom:link href="http://ryantopsky.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>strategy</title>
+      <link>http://ryantopsky.github.io/post/strategy/</link>
+      <pubDate>Thu, 18 Feb 2016 22:41:54 +0800</pubDate>
+      
+      <guid>http://ryantopsky.github.io/post/strategy/</guid>
+      <description>
+
+&lt;h1 id=&#34;策略模式:010736ab8fdfc1cfa693a6e5a7960263&#34;&gt;策略模式&lt;/h1&gt;
+
+&lt;p&gt;标签： 设计模式&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;设计模式（Design Pattern)是对软件设计中普遍存在（反复出现）的各种问题，所提出的解决方案。与其说是代码复用，不如说是经验复用。他可以让我们站在巨人的肩膀上，利用前人的经验和智慧来解决我们遇到的类似的问题。&lt;/p&gt;
+
+&lt;p&gt;先从第一个设计模式“策略模式”开始。谈策略模式之前，先看看为什么要使用策略模式，他的使用场景是什么。在《Head First设计模式》中给出了一个很经典的鸭子的例子，一步步推导出策略模式的使用。
+首先是很简单的一个鸭子（Duck）模拟：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://yuml.me/7537b47c&#34; alt=&#34;鸭子&#34; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;但是需求往往会发生变化（这事经常发生），例如现在需要让鸭子能飞，第一感觉我们只要在Duck类上加上fly()方法，然后其他所有的鸭子都会继承他，毕竟这对于OO来说是小case：
+&lt;img src=&#34;http://yuml.me/0fe7d710&#34; alt=&#34;此处输入图片的描述&#34; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;但是问题来了：并非所有的鸭子都是会飞的，比如前段时间很火的大黄鸭就不会飞。在超类中加入fly()会导致所有子类都具备fly(),包括不会飞的子类。怎么解决呢？最直接的解决办法就是子类把Duck中的fly方法覆盖掉，但是这只是一方面，除了不会飞，也并不是所有的鸭子都会叫，大黄鸭既不会飞也不会叫，有的鸭子会叫不会飞。。。。如果都要子类来覆盖也太麻烦了。
+这时候我们体会到了用继承来处理Duck行为的一些缺点了：
+1.代码在多个子类里重复。
+2.很难知道所有鸭子的全部行为，鸭子的行为各个不同。
+3.运行时的行为不容易改变，不够灵活。
+4.改变会牵一发而动全身，造成其他鸭子不想要的改变。&lt;/p&gt;
+
+&lt;p&gt;继承不是解决方案，那么利用接口呢？把fly（）从超类中提取出来放到一个Flyable接口中。只有会飞的鸭子才去实现它。这样的确可以解决不会飞的鸭子飞起来的问题，但会造成代码无法复用，如果有几百只鸭子，要改变下飞行行为，简直是噩梦：
+&lt;img src=&#34;http://yuml.me/00d1995b&#34; alt=&#34;此处输入图片的描述&#34; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;为了解决这些问题，需要用到一些设计原则：
+1.封装变化：找出应用中可能需要变化之处，把它们独立出来，不要和那些不需要变化的代码混在一起。（对于本例来说，我们知道Duck类中的fly()和quack()会随着鸭子的不同而变化，所以需要把它们从Duck中飞出来。）,如下图：
+&lt;img src=&#34;http://yuml.me/97e37f43&#34; alt=&#34;此处输入图片的描述&#34; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;2.针对接口编程，不要针对实现编程。
+我们利用接口代表每个行为，而行为的每个实现都将实现其中一接口。
+如下：
+而以前的做法，行为来自超类Duck或者继承自某个接口后子类自己实现的，都依赖于“实现”，耦合性太强，没法灵活的更改行为。
+现在的设计，可以让飞行和咕咕叫的动作被其他对象复用，而这些行为已经与鸭子类无关了。而我们增加一些行为，也不会影响到既有的行为类，也不会影响到使用行为的鸭子类。&lt;/p&gt;
+
+&lt;p&gt;下面是整体设计：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://yuml.me/34a3e5ba&#34; alt=&#34;此处输入图片的描述&#34; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;这里面用到了设计的第三个原则：
+3.多用组合，少用继承
+组合关系是“有一个”关系，每一个鸭子都有一个FlyBehavior和QuackBehavior,鸭子的行为不是继承来的，而是和适当的行为组合来的，使用组合使系统具有很大的弹性，不仅可以将算法族封装成类，还可以在运行时动态改变行为。&lt;/p&gt;
+
+&lt;p&gt;最后给出策略模式的定义：
+策略模式定义了算法族，分别封装起来，让他们之间可以相互替换。此模式让算法的独立变化独立于使用算法的客户。
+策略模式的代码实现：
+&lt;pre&gt;&lt;code&gt;
+   //Duck类
+   public abstract class Duck {&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;QuackBehavior quackBehavior;
+
+FlyBehavior flyBehavior;
+
+public void peformFly(){
+    flyBehavior.fly();
+}
+
+public void peformQuack(){
+    quackBehavior.Quack();
+}
+
+public void display(){}
+
+public void swim(){}
+
+public FlyBehavior getFlyBehavior() {
+    return flyBehavior;
+}
+
+public void setFlyBehavior(FlyBehavior flyBehavior) {
+    this.flyBehavior = flyBehavior;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;}&lt;/p&gt;
+
+&lt;p&gt;public interface FlyBehavior {&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public void fly();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;}&lt;/p&gt;
+
+&lt;p&gt;public class FlyWithWings implements FlyBehavior {&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@Override
+public void fly() {
+    System.out.println(&amp;quot;I am fly with wings&amp;quot;);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;}
+public class FlyNoWay implements FlyBehavior {&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@Override
+public void fly() {
+    System.out.println(&amp;quot;I can not fly&amp;quot;);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;}&lt;/p&gt;
+
+&lt;p&gt;public interface QuackBehavior {&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public void Quack();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;}&lt;/p&gt;
+
+&lt;p&gt;public class Quack implements QuackBehavior {&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@Override
+public void Quack() {
+    System.out.println(&amp;quot;quack!&amp;quot;);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;}&lt;/p&gt;
+
+&lt;p&gt;public class MuteQuack implements QuackBehavior {&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@Override
+public void Quack() {
+    System.out.println(&amp;quot;mute quack!&amp;quot;);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;}&lt;/p&gt;
+
+&lt;p&gt;public class MallarDuck extends Duck {&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public MallarDuck() {
+    flyBehavior = new FlyWithWings();
+    quackBehavior = new Quack();
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;}&lt;/p&gt;
+
+&lt;p&gt;public class RedDuck extends Duck {&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public RedDuck() {
+    flyBehavior = new FlyNoWay();
+    quackBehavior = new MuteQuack();
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;}
+public class MiniDuckSimulator {
+    public static void main(String[] args) {
+        Duck mallar = new MallarDuck();
+        mallar.performQuack();
+        mallar.performFly();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+结果：
+quack!&lt;/p&gt;
+
+&lt;p&gt;I am fly with wings&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>枚举</title>
