@@ -6,8 +6,97 @@
     <description>Recent content on 远行客Ryan的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 18 Feb 2016 22:41:54 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 20 Mar 2016 23:49:54 +0800</lastBuildDate>
     <atom:link href="http://ryantopsky.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>NIO实现监控文件</title>
+      <link>http://ryantopsky.github.io/post/NIO%E5%AE%9E%E7%8E%B0%E7%9B%91%E6%8E%A7%E6%96%87%E4%BB%B6/</link>
+      <pubDate>Sun, 20 Mar 2016 23:49:54 +0800</pubDate>
+      
+      <guid>http://ryantopsky.github.io/post/NIO%E5%AE%9E%E7%8E%B0%E7%9B%91%E6%8E%A7%E6%96%87%E4%BB%B6/</guid>
+      <description>
+
+&lt;h1 id=&#34;java7-nio监控文件:ec470373105cdc7d649adef3ec817787&#34;&gt;JAVA7 NIO监控文件&lt;/h1&gt;
+
+&lt;p&gt;标签（空格分隔）： 未分类&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;最近在实际项目开发中经常需要解析服务器文件，以前是使用spring定时器来实现，但是这样的话有几个缺点，由于文件更新时间不固定，定时器时间长短的设定就很麻烦，时间设长了的话数据响应不及时，设短了的话，更新过于频繁，又浪费资源，虽然给文件加了MD5校验，但是总感觉实现不够优雅，做不到实时响应。
+ 为了加快数据响应的速度，能不能做到实时响应文件变化而无需通过定时器呢？于是就想到在实际开发中版本控制工具（如svn，git等）或者IDE（idea,eclipse等）会实时监控文件，一旦文件有任何变化，立马会给出相应的提示。他们是怎么实现的呢？JAVA有没有类似的功能呢？果断google之，果然有，JAVA7的NIO2.0就提供了这个功能，用于监听文件系统的更改。它采用类似观察者模式，注册相关的文件更改事件(新建，删除……)，当事件发生的，通知相关的监听者。&lt;/p&gt;
+
+&lt;p&gt;Java 7 新引入的 java.nio.file 包中有一套监视文件系统变更的 Watch Service API。可以使用这些 API 把一个目录注册到监视服务上。在注册的时候需要指定我们感兴趣的事件类型，比如文件创建、文件修改、文件删除等。当监视的事件发生时，监视服务会根据需要处理这些事件。这些 API 主要包括：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code&gt;java.nio.file.WatchService
+
+文件系统监视服务的接口类，它的具体实现由监视服务提供者负责加载。比如在 Windows 系统上，它的实现类为：sun.nio.fs.WindowsWatchService。
+
+java.nio.file.Watchable
+
+实现了 java.nio.file.Watchable 的对象才能注册监视服务 WatchService。java.nio.file.Path实现了 watchable 接口，后文使用 Path 对象注册监视服务。
+
+java.nio.file.WatchKey
+
+该类代表着 Watchable 对象和监视服务 WatchService 的注册关系。WatchKey 在 Watchable 对象向 WatchService 注册的时候被创建。它是 Watchable 和 WatchService之间的关联类
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;具体监控文件的步骤如下：
+ 1. 创建 WatchService 的一个实例变量 &amp;ldquo;watcher&amp;rdquo;。
+ 2. 使用 watcher 注册每一个想要监视的目录。注册目录到监视服务时，需要指定想要接收文件更改通知的事件类型。注册目录会返回一个WatchKey 实例 key。
+ 3. 执行一个无限循环来监控要到来的事件。当一个事件发生时，对实例 key 发出信号通知并且将它放到 watcher 的队列中。
+ 4. 从 watcher 的队列中重新得到key实例。Key实例包含发生变更的文件名。
+ 5. 从 key 实例中得到挂起的事件，然后根据需要对这些事件进行处理。
+ 6. 重置 key 实例并重新开始监控事件。
+ 7. 监控完毕，关掉监视服务。&lt;/p&gt;
+
+&lt;p&gt;以下是主要的代码示例，实际中结合业务会更加复杂，比如会增加多线程等：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+ * Created by ruiyuansheng on 2016/3/3.
+ */
+public class Watcher {
+    private WatchService watcher;
+
+    private Path path;
+public Watcher(Path path)throws IOException {
+    watcher = FileSystems.getDefault().newWatchService();
+    this.path = path;
+    path.register(watcher, StandardWatchEventKinds.ENTRY_CREATE,StandardWatchEventKinds.ENTRY_DELETE,StandardWatchEventKinds.ENTRY_MODIFY);
+}
+
+public void handleEvents() throws InterruptedException{
+    while(true){
+        WatchKey key = watcher.take();
+        for(WatchEvent event : key.pollEvents()){
+            WatchEvent.Kind kind = event.kind();
+
+            if(kind == StandardWatchEventKinds.OVERFLOW){//事件可能lost or discarded
+                continue;
+            }
+
+            WatchEvent e = (WatchEvent)event;
+            Path fileName = (Path)e.context();
+
+            System.out.printf(&amp;quot;Event %s has happened,which fileName is %s%n&amp;quot;
+                    ,kind.name(),path.toString() + fileName.toString());
+        }
+        if(!key.reset()){
+            break;
+        }
+    }
+}
+
+public static void main(String args[]) throws IOException, InterruptedException{
+new Watcher(Paths.get(&amp;quot;E:/1.txt&amp;quot;)).handleEvents();
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;}&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>strategy</title>
@@ -53,7 +142,6 @@
 
 &lt;p&gt;2.针对接口编程，不要针对实现编程。
 我们利用接口代表每个行为，而行为的每个实现都将实现其中一接口。
-如下：
 而以前的做法，行为来自超类Duck或者继承自某个接口后子类自己实现的，都依赖于“实现”，耦合性太强，没法灵活的更改行为。
 现在的设计，可以让飞行和咕咕叫的动作被其他对象复用，而这些行为已经与鸭子类无关了。而我们增加一些行为，也不会影响到既有的行为类，也不会影响到使用行为的鸭子类。&lt;/p&gt;
 
