@@ -1,0 +1,249 @@
+<div class="single">
+  <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.14" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel='stylesheet' href='//fonts.googleapis.com/css?family=Open+Sans|Lobster'>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/custom.css">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://ryantopsky.github.io//index.xml">
+
+    
+    <title>观察者模式 - 远行客Ryan的博客</title>
+    <meta property='og:title' content="观察者模式 - 远行客Ryan的博客">
+    <meta property="og:type" content="article">
+    
+
+    <meta property="og:url" content="http://ryantopsky.github.io/post/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/">
+    
+    
+
+  </head>
+
+  <body>
+
+    <div class="container-fluid">
+      <header class="site">
+        <div class="title"><a href="http://ryantopsky.github.io/">远行客Ryan的博客</a></div>
+      </header>
+    </div>
+
+    <div class="container site">
+
+
+  <article class="single" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+    <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://ryantopsky.github.io/"/>
+    <meta itemprop="dateModified" content="2016-03-28T01:01:42&#43;08:00">
+    <meta itemprop="headline" content="观察者模式">
+    <meta itemprop="description" content="观察者模式 设计模式 上一篇文章中提到过Java7监听器实现用到了观察者模式，那么什么是观察者模式呢？观察者模式（Observer）定义了一种一对多的依赖关系，多个观察者监听同一个主题，主题发生变化，会通知所有观察者，让他们更新自己。他跟前面介绍的策略模式都属于设计模式中的行为模式，因为都涉及到具体的行为。 观察者模式又叫做发布-订阅模式，模型-视图模式，源-监听模式。 这几种不同的叫法恰好对应于观察者模式具体的几种不同的应用场景。最长被拿来举例的就是发布-订阅模式，因为这种模式的工作方式很类似于传统报纸的发布和订阅，出版社出版不同的报纸，相应的客户订阅不同的报纸，当报纸被生产出来后，会分发到订阅者手上，这种发布-订阅的方式就是观察者模式的一种形式。 观察者模式一般包含如下角色： Subject: 目标 ConcreteSubject: 具体目标 Observer: 观察者 ConcreteObserver: 具体观察者 （类图以后补充） 观察者模式描述了如何建立对象与对象之间的依赖关系，如何构造满足这种需求的系统。 这一模式中的关键对象是观察目标和观察者，一个目标可以有任意数目的与之相依赖的观察者，一旦目标的状态发生改变，所有的观察者都将得到通知。 作为对这个通知的响应，每个观察者都将即时更新自己的状态，以与目标状态同步。目标是通知的发布者，它发出通知时并不需要知道谁是它的观察者，可以有任意数目的观察者订阅它并接收通知。 观察者模式的优点： 观察者模式可以实现表示层和数据逻辑层的分离，并定义了稳定的消息更新传递机制，抽象了更新接口，使得可以有各种各样不同的表示层作为具体观察者角色。 观察者模式在观察目标和观察者之间建立一个抽象的耦合。 观察者模式支持广播通信。 观察者模式符合“开闭原则”的要求。 观察者模式的缺点： 如果一个观察目标对象有很多直接和间接的观察者的话，将所有的观察者都通知到会花费很多时间。 如果在观察者和观察目标之间有循环依赖的话，观察目标会触发它们之间进行循环调用，可能导致系统崩溃。 观察者模式没有相应的机制让观察者知道所观察的目标对象是怎么发生变化的，而仅仅只是知道观察目标发生了变化。 MVC模式是一种架构模式，它包含三个角色：模型(Model)，视图(View)和控制器(Controller)。观察者模式可以用来实现MVC模式，观察者模式中的观察目标就是MVC模式中的模型(Model)，而观察者就是MVC中的视图(View)，控制器(Controller)充当两者之间的中介者(Mediator)。当模型层的数据发生改变时，视图层将自动改变其显示内容。所以观察者模式也叫模型-视图模式。 所谓的源-监听模式就类似上一章的文件监控系统，当文件发生修改就通知所有的监听器做出相应的反应。 观察者模式具体源代码示例如下： 抽象主题角色类： public abstract class Subject { /** * 用来保存注册的观察者对象 */ private List&lt;Observer&gt; list = new ArrayList&lt;Observer&gt;(); /** * 注册观察者对象 * @param observer 观察者对象 */ public void attach(Observer observer){ list.add(observer); System.out.println(&quot;Attached an observer&quot;); } /** * 删除观察者对象 * @param observer 观察者对象">
+    <meta itemprop="url" content="http://ryantopsky.github.io/post/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/">
+    <div itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
+      <meta itemprop="url" content="http://ryantopsky.github.io/images/default.jpg" />
+      <meta itemprop="width" content="800">
+      <meta itemprop="height" content="800">
+    </div>
+    <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+      <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+        <meta itemprop="url" content="http://ryantopsky.github.io/images/logo.jpg">
+        <meta itemprop="width" content="100">
+        <meta itemprop="height" content="100">
+      </div>
+      <meta itemprop="name" content="远行客Ryan的博客">
+    </div>
+    <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+      <meta itemprop="name" content="">
+    </div>
+
+    <header>
+
+      <div class="clearfix">
+
+        <div class="image" style="background-image: url(http://ryantopsky.github.io/images/default.jpg);"></div>
+        <div class="detail">
+          <time itemprop="datePublished" pubdate="pubdate" datetime="2016-03-28T01:01:42&#43;08:00">Mon, Mar 28, 2016</time>
+          
+          <h1 class="title">观察者模式</h1>
+        </div>
+      </div>
+
+      <div class="share">
+        <a href="http://www.facebook.com/sharer.php?src=bm&u=http%3a%2f%2fryantopsky.github.io%2fpost%2f%25E8%25A7%2582%25E5%25AF%259F%25E8%2580%2585%25E6%25A8%25A1%25E5%25BC%258F%2f&t=%e8%a7%82%e5%af%9f%e8%80%85%e6%a8%a1%e5%bc%8f" onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"><i class="fa fa-facebook"></i></a>
+        <a href="http://twitter.com/intent/tweet?url=http%3a%2f%2fryantopsky.github.io%2fpost%2f%25E8%25A7%2582%25E5%25AF%259F%25E8%2580%2585%25E6%25A8%25A1%25E5%25BC%258F%2f&text=%e8%a7%82%e5%af%9f%e8%80%85%e6%a8%a1%e5%bc%8f&tw_p=tweetbutton" onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"><i class="fa fa-twitter"></i></a>
+        <a href="https://plus.google.com/share?url=http%3a%2f%2fryantopsky.github.io%2fpost%2f%25E8%25A7%2582%25E5%25AF%259F%25E8%2580%2585%25E6%25A8%25A1%25E5%25BC%258F%2f" onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"><i class="fa fa-google-plus"></i></a>
+        <a href="http://getpocket.com/edit?url=http%3a%2f%2fryantopsky.github.io%2fpost%2f%25E8%25A7%2582%25E5%25AF%259F%25E8%2580%2585%25E6%25A8%25A1%25E5%25BC%258F%2f&title=%e8%a7%82%e5%af%9f%e8%80%85%e6%a8%a1%e5%bc%8f" onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"><i class="fa fa-get-pocket"></i></a>
+      </div>
+
+    </header>
+
+    <div class="article-body" itemprop="articleBody">
+
+<h1 id="观察者模式:bcbd4d96c5c4c8f1f0e9cb1387acf630">观察者模式</h1>
+
+<p>设计模式</p>
+
+<hr />
+
+<p>上一篇文章中提到过Java7监听器实现用到了观察者模式，那么什么是观察者模式呢？观察者模式（Observer）定义了一种一对多的依赖关系，多个观察者监听同一个主题，主题发生变化，会通知所有观察者，让他们更新自己。他跟前面介绍的策略模式都属于设计模式中的行为模式，因为都涉及到具体的行为。
+观察者模式又叫做发布-订阅模式，模型-视图模式，源-监听模式。
+这几种不同的叫法恰好对应于观察者模式具体的几种不同的应用场景。最长被拿来举例的就是发布-订阅模式，因为这种模式的工作方式很类似于传统报纸的发布和订阅，出版社出版不同的报纸，相应的客户订阅不同的报纸，当报纸被生产出来后，会分发到订阅者手上，这种发布-订阅的方式就是观察者模式的一种形式。</p>
+
+<p>观察者模式一般包含如下角色：
+Subject: 目标
+ConcreteSubject: 具体目标
+Observer: 观察者
+ConcreteObserver: 具体观察者
+（类图以后补充）
+观察者模式描述了如何建立对象与对象之间的依赖关系，如何构造满足这种需求的系统。
+这一模式中的关键对象是观察目标和观察者，一个目标可以有任意数目的与之相依赖的观察者，一旦目标的状态发生改变，所有的观察者都将得到通知。
+作为对这个通知的响应，每个观察者都将即时更新自己的状态，以与目标状态同步。目标是通知的发布者，它发出通知时并不需要知道谁是它的观察者，可以有任意数目的观察者订阅它并接收通知。</p>
+
+<p>观察者模式的优点：</p>
+
+<ol>
+<li>观察者模式可以实现表示层和数据逻辑层的分离，并定义了稳定的消息更新传递机制，抽象了更新接口，使得可以有各种各样不同的表示层作为具体观察者角色。</li>
+<li>观察者模式在观察目标和观察者之间建立一个抽象的耦合。</li>
+<li>观察者模式支持广播通信。</li>
+<li>观察者模式符合“开闭原则”的要求。</li>
+</ol>
+
+<p>观察者模式的缺点：</p>
+
+<ol>
+<li><p>如果一个观察目标对象有很多直接和间接的观察者的话，将所有的观察者都通知到会花费很多时间。</p></li>
+
+<li><p>如果在观察者和观察目标之间有循环依赖的话，观察目标会触发它们之间进行循环调用，可能导致系统崩溃。</p></li>
+
+<li><p>观察者模式没有相应的机制让观察者知道所观察的目标对象是怎么发生变化的，而仅仅只是知道观察目标发生了变化。</p></li>
+</ol>
+
+<p>MVC模式是一种架构模式，它包含三个角色：模型(Model)，视图(View)和控制器(Controller)。观察者模式可以用来实现MVC模式，观察者模式中的观察目标就是MVC模式中的模型(Model)，而观察者就是MVC中的视图(View)，控制器(Controller)充当两者之间的中介者(Mediator)。当模型层的数据发生改变时，视图层将自动改变其显示内容。所以观察者模式也叫模型-视图模式。
+所谓的源-监听模式就类似上一章的文件监控系统，当文件发生修改就通知所有的监听器做出相应的反应。</p>
+
+<p>观察者模式具体源代码示例如下：
+抽象主题角色类：</p>
+
+<pre><code>    public abstract class Subject {
+    /**
+     * 用来保存注册的观察者对象
+     */
+    private    List&lt;Observer&gt; list = new ArrayList&lt;Observer&gt;();
+    /**
+     * 注册观察者对象
+     * @param observer    观察者对象
+     */
+    public void attach(Observer observer){
+
+        list.add(observer);
+        System.out.println(&quot;Attached an observer&quot;);
+    }
+    /**
+     * 删除观察者对象
+     * @param observer    观察者对象
+     */
+    public void detach(Observer observer){
+
+        list.remove(observer);
+    }
+    /**
+     * 通知所有注册的观察者对象
+     */
+    public void nodifyObservers(String newState){
+
+        for(Observer observer : list){
+            observer.update(newState);
+        }
+    }
+}
+</code></pre>
+
+<p>　具体主题角色类：
+　</p>
+
+<pre><code>public class ConcreteSubject extends Subject{
+
+private String state;
+
+public String getState() {
+    return state;
+}
+
+public void change(String newState){
+    state = newState;
+    System.out.println(&quot;主题状态为：&quot; + state);
+    //状态发生改变，通知各个观察者
+    this.nodifyObservers(state);
+}
+</code></pre>
+
+<p>}
+　抽象观察者角色类：
+　</p>
+
+<pre><code>public interface Observer {
+/**
+ * 更新接口
+ * @param state    更新的状态
+ */
+public void update(String state);
+</code></pre>
+
+<p>}
+具体观察者角色类：</p>
+
+<pre><code>public class ConcreteObserver implements Observer {
+//观察者的状态
+private String observerState;
+
+@Override
+public void update(String state) {
+    /**
+     * 更新观察者的状态，使其与目标的状态保持一致
+     */
+    observerState = state;
+    System.out.println(&quot;状态为：&quot;+observerState);
+}
+</code></pre>
+
+<p>}</p>
+</div>
+
+    <aside>
+
+      
+
+      
+      
+      
+
+    </aside>
+
+  </article>
+
+      </div>
+
+    <div class="container-fluid">
+      <footer class="site">
+        <p>&copy; 2016 远行客Ryan的博客</p>
+        <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+        <p>Theme <a href="https://github.com/dim0627/hugo_theme_aglaus" target="_blank">Aglaus</a> designed by <a href="http://yet.unresolved.xyz" target="_blank">Daisuke Tsuji</a></p>
+      </footer>
+    </div>
+
+    <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+
+  </body>
+</html>
+
+</div>
